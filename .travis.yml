@@ -1,0 +1,23 @@
+language: java
+jdk:
+  - oraclejdk11
+before_install:
+  - sudo apt-get update 
+  - cd app/
+  - echo "Starting Maven package..."
+  - mvn clean package
+  - cd ..
+  - echo "Changed to the root dir..."
+script:
+  - docker-compose build
+before_deploy:
+  - echo: "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin
+deploy:
+  provider: script
+  script:
+     docker push brunosilvcarv/spring-boot-example;
+  on:
+    branch: master
+notifications:
+  email: false 
+
