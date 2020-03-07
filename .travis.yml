@@ -15,7 +15,8 @@ before_deploy:
 deploy:
   provider: script
   script:
-     docker push brunosilvcarv/spring-boot-example;
+     docker tag spring-boot-example:latest "$DOCKER_USERNAME"/spring-boot-example:$TRAVIS_JOB_ID
+     docker push "$DOCKER_USERNAME"/spring-boot-example;
   on:
     branch: master
 notifications:
